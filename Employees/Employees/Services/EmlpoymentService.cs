@@ -5,7 +5,7 @@ namespace Employees.Services
 {
     public class EmlpoymentService : IEmlpoymentService
     {
-        public CommonEmployment CalculateLargestCommonEmlpoyment()
+        public CommonEmployment CalculateLongestCommonEmlpoyment()
         {
             return new CommonEmployment(1, 1, 1);
         }

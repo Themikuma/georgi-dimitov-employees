@@ -3,7 +3,7 @@ namespace Employees.Tests
     public class EmploymentServiceTests
     {
         [Fact]
-        public void Test1()
+        public void CalculateLongestEmloyment_Test()
         {
 
         }

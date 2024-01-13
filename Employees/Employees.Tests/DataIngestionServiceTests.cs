@@ -1,11 +1,6 @@
 ﻿using Employees.Interfaces;
 using Employees.Models;
 using Employees.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Employees.Tests
 {
@@ -17,17 +12,44 @@ namespace Employees.Tests
             List<EmploymentRecord> records = new List<EmploymentRecord>()
             {
                 new EmploymentRecord("143, 12, 2013-11-01, 2014-01-05"),
-                new EmploymentRecord("218, 10, 2012-05-16, NULL"),
-                new EmploymentRecord("143, 10, 2009-01-01, 2011-04-27")
+                new EmploymentRecord("143, 10, 2009-01-01, 2011-04-27"),
+                new EmploymentRecord("218, 10, 2012-05-16, NULL")
             };
             IDataIngestionService service = new DataIngestionService();
 
             var result = service.ReformatData(records);
-            Assert.NotNull(result);
-            Assert.NotNull(result[10]);
-            Assert.NotNull(result[12]);
-            Assert.Equal(2, result.Keys.Count);
+            Assert.Multiple(() =>
+            {
+                Assert.NotNull(result);
+                Assert.NotNull(result[10]);
+                Assert.NotNull(result[12]);
+                Assert.Equal(218, result[10][0].EmpId);
+                Assert.Equal(2, result.Keys.Count);
+            });
         }
+
+        [Fact]
+        public void Test_ReformatData_With_MultipleEntriesInSingleProject()
+        {
+            List<EmploymentRecord> records = new List<EmploymentRecord>()
+            {
+                new EmploymentRecord("218, 10, 2012-05-16, 2014-01-05"),
+                new EmploymentRecord("143, 10, 2009-01-01, 2011-04-27"),
+                new EmploymentRecord("142, 10, 2013-11-01, NULL")
+            };
+            IDataIngestionService service = new DataIngestionService();
+
+            var result = service.ReformatData(records);
+            Assert.Multiple(() =>
+            {
+                Assert.NotNull(result);
+                Assert.NotNull(result[10]);
+                Assert.NotNull(result[12]);
+                Assert.Equal(142, result[10][0].EmpId);
+                Assert.Equal(2, result.Keys.Count);
+            });
+        }
+
         [Fact]
         public void Test_ReformatData_With_SingleProjectId()
         {
@@ -39,9 +61,12 @@ namespace Employees.Tests
             IDataIngestionService service = new DataIngestionService();
 
             var result = service.ReformatData(records);
-            Assert.NotNull(result);
-            Assert.NotNull(result[10]);
-            Assert.Equal(2, result.Keys.Count);
+            Assert.Multiple(() =>
+            {
+                Assert.NotNull(result);
+                Assert.NotNull(result[10]);
+                Assert.Single(result.Keys);
+            });
         }
 
         [Fact]
@@ -50,7 +75,7 @@ namespace Employees.Tests
             List<EmploymentRecord> records = new List<EmploymentRecord>();
             IDataIngestionService service = new DataIngestionService();
 
-           Assert.Throws<ArgumentException>(()=> service.ReformatData(records));
+            Assert.Throws<ArgumentException>(() => service.ReformatData(records));
         }
     }
 }

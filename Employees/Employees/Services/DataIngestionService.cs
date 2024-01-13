@@ -7,7 +7,27 @@ namespace Employees.Services
     {
         public Dictionary<int, List<EmploymentDuration>> ReformatData(List<EmploymentRecord> records)
         {
-            throw new NotImplementedException();
+            if (records.Count == 0)
+            {
+                throw new ArgumentException();
+            }
+            Dictionary<int, List<EmploymentDuration>> result = new Dictionary<int, List<EmploymentDuration>>();
+            List<EmploymentDuration> durations = new List<EmploymentDuration>();
+
+            foreach (EmploymentRecord record in records)
+            {
+                if (result.TryGetValue(record.ProjectId, out durations))
+                {
+                    durations.Add(new EmploymentDuration(record));
+                }
+                else
+                {
+                    result.Add(record.ProjectId, new List<EmploymentDuration>());
+                    result[record.ProjectId].Add(new EmploymentDuration(record));
+                }
+            }
+
+            return result;
         }
     }
 }

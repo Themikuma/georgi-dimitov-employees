@@ -8,6 +8,6 @@ namespace Employees.Interfaces
         /// Calculates the longest time two employees have worked together on a project
         /// </summary>
         /// <returns></returns>
-        CommonEmployment CalculateLongestCommonEmlpoyment();
+        Task<CommonEmployment> CalculateLongestCommonEmlpoyment();
     }
 }

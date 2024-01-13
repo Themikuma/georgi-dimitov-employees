@@ -12,10 +12,9 @@ namespace Employees.Tests
     public class EmploymentRecordTests
     {
         [Fact]
-        public void Test_CreateEmploymentRecord_WithTrimmedRecord()
+        public void Test_CreateEmploymentRecord_With_TrimmedRecord()
         {
             string line = "143,12,2013-11-01,2014-01-05";
-            IDataIngestionService service = new DataIngestionService();
 
             EmploymentRecord result = new EmploymentRecord(line);
 
@@ -26,10 +25,9 @@ namespace Employees.Tests
         }
 
         [Fact]
-        public void Test_CreateEmploymentRecord_WithSpacesInRecord()
+        public void Test_CreateEmploymentRecord_With_SpacesInRecord()
         {
             string line = "143, 10, 2009-01-01    ,    2011-04-27";
-            IDataIngestionService service = new DataIngestionService();
 
             EmploymentRecord result = new EmploymentRecord(line);
 
@@ -40,10 +38,9 @@ namespace Employees.Tests
         }
 
         [Fact]
-        public void Test_CreateEmploymentRecord_WithNullToDate()
+        public void Test_CreateEmploymentRecord_With_NullToDate()
         {
             string line = "143,12,2013-11-01, NULL";
-            IDataIngestionService service = new DataIngestionService();
 
             EmploymentRecord result = new EmploymentRecord(line);
 
@@ -54,10 +51,9 @@ namespace Employees.Tests
         }
 
         [Fact]
-        public void Test_CreateEmploymentRecord_WithNullFromDate()
+        public void Test_CreateEmploymentRecord_With_NullToAndFromDates()
         {
             string line = "143,12,NULL  ,  NULL";
-            IDataIngestionService service = new DataIngestionService();
 
             EmploymentRecord result = new EmploymentRecord(line);
 

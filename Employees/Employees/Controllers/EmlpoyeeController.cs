@@ -1,3 +1,4 @@
+using Employees.Interfaces;
 using Employees.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,16 +9,18 @@ namespace Employees.Controllers
     public class EmlpoyeeController : ControllerBase
     {
         private readonly ILogger<EmlpoyeeController> _logger;
+        private readonly IEmlpoymentService _emlpoymentService;
 
-        public EmlpoyeeController(ILogger<EmlpoyeeController> logger)
+        public EmlpoyeeController(ILogger<EmlpoyeeController> logger, IEmlpoymentService emlpoymentService)
         {
+            _emlpoymentService = emlpoymentService;
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<CommonEmployment> Get()
+        [HttpGet]
+        public async Task<CommonEmployment> Get()
         {
-            return new List<CommonEmployment>();
+            return await _emlpoymentService.CalculateLongestCommonEmlpoyment();
         }
     }
 }

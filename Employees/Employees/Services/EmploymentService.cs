@@ -3,9 +3,9 @@ using Employees.Models;
 
 namespace Employees.Services
 {
-    public class EmlpoymentService : IEmlpoymentService
+    public class EmploymentService : IEmlpoymentService
     {
-        public CommonEmployment CalculateLongestCommonEmlpoyment()
+        public async Task<CommonEmployment> CalculateLongestCommonEmlpoyment()
         {
             return new CommonEmployment(1, 1, 1);
         }

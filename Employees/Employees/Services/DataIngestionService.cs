@@ -12,10 +12,11 @@ namespace Employees.Services
                 throw new ArgumentException();
             }
             Dictionary<int, List<EmploymentDuration>> result = new Dictionary<int, List<EmploymentDuration>>();
-            List<EmploymentDuration> durations = new List<EmploymentDuration>();
+            _ = new List<EmploymentDuration>();
 
             foreach (EmploymentRecord record in records)
             {
+                List<EmploymentDuration> durations;
                 if (result.TryGetValue(record.ProjectId, out durations))
                 {
                     durations.Add(new EmploymentDuration(record));
@@ -25,6 +26,13 @@ namespace Employees.Services
                     result.Add(record.ProjectId, new List<EmploymentDuration>());
                     result[record.ProjectId].Add(new EmploymentDuration(record));
                 }
+            }
+
+            //Reorder the entries by DateTo descending so searching will be more efficient.
+            foreach (var key in result.Keys)
+            {
+                var ordered= result[key].OrderByDescending(t => t.DateTo).ToList();
+                result[key]= ordered;
             }
 
             return result;

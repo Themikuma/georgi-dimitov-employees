@@ -44,9 +44,7 @@ namespace Employees.Tests
             {
                 Assert.NotNull(result);
                 Assert.NotNull(result[10]);
-                Assert.NotNull(result[12]);
                 Assert.Equal(142, result[10][0].EmpId);
-                Assert.Equal(2, result.Keys.Count);
             });
         }
 

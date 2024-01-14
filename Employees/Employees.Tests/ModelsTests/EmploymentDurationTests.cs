@@ -1,6 +1,6 @@
 ﻿using Employees.Models;
 
-namespace Employees.Tests
+namespace Employees.Tests.ModelsTests
 {
     public class EmploymentDurationTests
     {

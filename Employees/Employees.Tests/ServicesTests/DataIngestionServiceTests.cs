@@ -2,7 +2,7 @@
 using Employees.Models;
 using Employees.Services;
 
-namespace Employees.Tests
+namespace Employees.Tests.ServicesTests
 {
     public class DataIngestionServiceTests
     {

@@ -2,7 +2,7 @@ using Employees.Interfaces;
 using Employees.Models;
 using Employees.Services;
 
-namespace Employees.Tests
+namespace Employees.Tests.ServicesTests
 {
     public class EmploymentServiceTests
     {
@@ -17,6 +17,8 @@ namespace Employees.Tests
                 new EmploymentRecord("143, 10, 2013-01-01, 2013-01-03")
             };
             var result = employmentService.CalculateLongestCommonEmlpoyment(records);
+            Assert.Equal(143, result.FirstEmpId);
+            Assert.Equal(218, result.SecondEmpId);
             Assert.Equal(3, result.TimeInDays);
         }
 
@@ -30,7 +32,7 @@ namespace Employees.Tests
                 new EmploymentRecord("218, 10, 2012-05-16, NULL"),
                 new EmploymentRecord("143, 10, 2011-01-01, 2011-01-03")
             };
-            Assert.Throws<ArgumentOutOfRangeException>(()=> employmentService.CalculateLongestCommonEmlpoyment(records));
+            Assert.Throws<ArgumentOutOfRangeException>(() => employmentService.CalculateLongestCommonEmlpoyment(records));
         }
     }
 }

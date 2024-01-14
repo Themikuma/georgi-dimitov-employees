@@ -28,7 +28,7 @@ namespace Employees.Services
                 }
             }
 
-            //Reorder the entries by DateTo descending so searching will be more efficient.
+            //Reorder the entries by DateTo descending so searching will be more efficient.            
             foreach (var key in result.Keys)
             {
                 var ordered= result[key].OrderByDescending(t => t.DateTo).ToList();

@@ -5,9 +5,17 @@ namespace Employees.Services
 {
     public class EmploymentService : IEmlpoymentService
     {
-        public async Task<CommonEmployment> CalculateLongestCommonEmlpoyment(Dictionary<int, List<EmploymentDuration>> projectDuration)
+        private IDataIngestionService _ingestionService;
+
+        public EmploymentService(IDataIngestionService ingestionService)
         {
-            return new CommonEmployment(1, 1, 1);
+            _ingestionService = ingestionService;
+        }
+
+        public CommonEmployment CalculateLongestCommonEmlpoyment(IEnumerable<EmploymentRecord> records)
+        {
+            var reformatedData=_ingestionService.ReformatData(records.ToList());
+            throw new NotImplementedException();
         }
     }
 }

@@ -18,9 +18,9 @@ namespace Employees.Controllers
         }
 
         [HttpGet]
-        public async Task<CommonEmployment> Get()
+        public CommonEmployment Get(IEnumerable<EmploymentRecord> employments)
         {
-            return await _emlpoymentService.CalculateLongestCommonEmlpoyment();
+            return _emlpoymentService.CalculateLongestCommonEmlpoyment(employments);
         }
     }
 }

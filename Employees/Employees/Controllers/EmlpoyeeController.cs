@@ -17,8 +17,8 @@ namespace Employees.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public CommonEmployment Get(IEnumerable<EmploymentRecord> employments)
+        [HttpPost]
+        public CommonEmployment Post(IEnumerable<EmploymentRecord> employments)
         {
             return _emlpoymentService.CalculateLongestCommonEmlpoyment(employments);
         }

@@ -28,14 +28,14 @@ namespace Employees.Services
                         {
                             break; //Because we've ordered the data by DateTo we can afford this optimizaton.
                         }
-                        if (durations[i].DateFrom <= durations[j].DateTo && durations[i].DateFrom >= durations[j].DateTo)
+                        if (durations[i].DateFrom <= durations[j].DateTo && durations[i].DateTo >= durations[j].DateFrom)
                         {
                             dictionary.Add(durations[i], durations[j]);
                         }
                     }
                 }
             }
-            throw new NotImplementedException();
+            return dictionary.GetMaxDuration();
         }
     }
 }

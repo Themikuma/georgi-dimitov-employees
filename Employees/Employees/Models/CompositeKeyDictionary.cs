@@ -56,12 +56,27 @@ namespace Employees.Models
 
         public CommonEmployment GetMaxDuration()
         {
-            throw new NotImplementedException();
+            int max = 0;
+            string maxKey = "";
+            foreach (var key in _calculatedDurations.Keys)
+            {
+                if (_calculatedDurations[key] > max)
+                {
+                    max = _calculatedDurations[key];
+                    maxKey = key;
+                }
+            }
+            if (string.IsNullOrWhiteSpace(maxKey))
+            {
+                throw new ArgumentOutOfRangeException("There were no overlapping employee intervals given");
+            }
+            var parts = maxKey.Split(',');
+            return new CommonEmployment(int.Parse(parts[0]), int.Parse(parts[1]), max);//TODO: Think about the cost of avoiding this parsing by keeping an object value instead of int and having the keys in.
         }
 
         private string CreateKey(int employeeId1, int employeeId2)
         {
-            if (employeeId1==employeeId2)
+            if (employeeId1 == employeeId2)
             {
                 return "";
             }

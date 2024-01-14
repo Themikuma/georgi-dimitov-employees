@@ -5,6 +5,10 @@
         public EmploymentRecord(string line)
         {
             string[] parts = line.Split(',');
+            if (parts.Length != 4)
+            {
+                throw new ArgumentException("Invalid line");
+            }
             EmpId = int.Parse(parts[0]);
             ProjectId = int.Parse(parts[1]);
             var now = DateTime.Now;

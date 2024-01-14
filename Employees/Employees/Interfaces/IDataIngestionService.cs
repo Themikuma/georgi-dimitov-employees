@@ -11,6 +11,8 @@ namespace Employees.Interfaces
         /// <param name="records">The emloyment records as received in raw format</param>
         /// <returns>A project based structure</returns>
         public Dictionary<int, List<EmploymentDuration>> ReformatData(List<EmploymentRecord> records);
-     
+
+        public IEnumerable<EmploymentRecord> ReadRecords(string file);
+
     }
 }

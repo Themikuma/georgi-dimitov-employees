@@ -5,6 +5,11 @@ namespace Employees.Services
 {
     public class DataIngestionService : IDataIngestionService
     {
+        public IEnumerable<EmploymentRecord> ReadRecords(string content)
+        {
+            throw new NotImplementedException();
+        }
+
         public Dictionary<int, List<EmploymentDuration>> ReformatData(List<EmploymentRecord> records)
         {
             if (records.Count == 0)

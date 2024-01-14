@@ -75,5 +75,26 @@ namespace Employees.Tests.ServicesTests
 
             Assert.Throws<ArgumentException>(() => service.ReformatData(records));
         }
+
+        [Fact]
+        public void Test_ReadRecords_With_InvalidRecord()
+        {
+            string line = $"143, 12, 2013-11-01, 2014-01-05\n218, 10, NULL\n143, 10, 2009-01-01, 2011-04-27";
+            IDataIngestionService service = new DataIngestionService();
+
+            Assert.Throws<ArgumentException>(() => service.ReadRecords(line));
+        }
+
+        [Theory]
+        [InlineData("143, 12, 2013-11-01, 2014-01-05", 1)]
+        [InlineData($"143, 12, 2013-11-01, 2014-01-05\n218, 10, 2012-05-16, NULL\n143, 10, 2009-01-01, 2011-04-27", 3)]
+        public void Test_ReadRecords(string content, int expected)
+        {
+            IDataIngestionService service = new DataIngestionService();
+
+            var records = service.ReadRecords(content);
+
+            Assert.Equal(records.Count(), expected);
+        }
     }
 }

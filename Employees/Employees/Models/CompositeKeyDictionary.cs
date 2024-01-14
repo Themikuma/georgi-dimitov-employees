@@ -5,7 +5,7 @@ namespace Employees.Models
     /// Creates a composite key dictionary that calculates a unique composite key for 
     /// employees and adds up days together on a project as a value.
     /// </summary>
-    public class CompositeKeyDictionary
+    public class CompositeKeyDictionary//TODO: Keep thinking of a better name for this. This name describes what it is instead of what it does.
     {
         private readonly Dictionary<string, int> _calculatedDurations;
         public CompositeKeyDictionary()

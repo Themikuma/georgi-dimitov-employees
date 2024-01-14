@@ -81,5 +81,29 @@ namespace Employees.Tests.ServicesTests
                 Assert.Equal(6, result.TimeInDays);
             });
         }
+
+        /// <summary>
+        /// The list checked here isn't complete. For a proper solution the CSV should probably provide region data.
+        /// multiple common data formats are supported.
+        /// </summary>
+        [Fact]
+        public void Test_CalculateLongestEmloyment_With_DifferentDateFormats()
+        {
+            IEmlpoymentService employmentService = new EmploymentService(new DataIngestionService());
+            List<EmploymentRecord> records = new List<EmploymentRecord>()
+            {
+                new EmploymentRecord("143, 12, 2013-11-01,05-Jan-2014"),//yy-MM-dd, dd-MMMM-yyyy
+                new EmploymentRecord("218, 10,5-16-12, NULL"),//M-d-yy
+                new EmploymentRecord("143, 10, 2013-06-21, 2013/6/23"),//M/d/yy yyyy/M/d 
+                new EmploymentRecord("1, 10, 12.01.24, 12/02/24"),//MM.dd.yy MM/dd/yy
+            };
+            var result = employmentService.CalculateLongestCommonEmlpoyment(records);
+            Assert.Multiple(() =>
+            {
+                Assert.Equal(143, result.FirstEmpId);
+                Assert.Equal(218, result.SecondEmpId);
+                Assert.Equal(3, result.TimeInDays);
+            });
+        }
     }
 }

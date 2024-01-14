@@ -15,6 +15,7 @@ namespace Employees.Services
         public CommonEmployment CalculateLongestCommonEmlpoyment(IEnumerable<EmploymentRecord> records)
         {
             Dictionary<int, List<EmploymentDuration>> reformatedData = _ingestionService.ReformatData(records.ToList());
+            CompositeKeyDictionary dictionary = new CompositeKeyDictionary();
 
             foreach (int key in reformatedData.Keys)
             {
@@ -29,7 +30,7 @@ namespace Employees.Services
                         }
                         if (durations[i].DateFrom <= durations[j].DateTo && durations[i].DateFrom >= durations[j].DateTo)
                         {
-                            //Do calculations
+                            dictionary.Add(durations[i], durations[j]);
                         }
                     }
                 }

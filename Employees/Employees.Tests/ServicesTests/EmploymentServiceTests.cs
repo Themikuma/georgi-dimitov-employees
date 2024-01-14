@@ -17,9 +17,12 @@ namespace Employees.Tests.ServicesTests
                 new EmploymentRecord("143, 10, 2013-01-01, 2013-01-03")
             };
             var result = employmentService.CalculateLongestCommonEmlpoyment(records);
-            Assert.Equal(143, result.FirstEmpId);
-            Assert.Equal(218, result.SecondEmpId);
-            Assert.Equal(3, result.TimeInDays);
+            Assert.Multiple(() =>
+            {
+                Assert.Equal(143, result.FirstEmpId);
+                Assert.Equal(218, result.SecondEmpId);
+                Assert.Equal(3, result.TimeInDays);
+            });
         }
 
         [Fact]
@@ -33,6 +36,50 @@ namespace Employees.Tests.ServicesTests
                 new EmploymentRecord("143, 10, 2011-01-01, 2011-01-03")
             };
             Assert.Throws<ArgumentOutOfRangeException>(() => employmentService.CalculateLongestCommonEmlpoyment(records));
+        }
+
+
+        [Fact]
+        public void Test_CalculateLongestCommonEmlpoyment_With_MultipleOverlappingEmployees()
+        {
+            IEmlpoymentService employmentService = new EmploymentService(new DataIngestionService());
+            List<EmploymentRecord> records = new List<EmploymentRecord>()
+            {
+                new EmploymentRecord("218, 10, 2012-05-16, NULL"),
+                new EmploymentRecord("143, 10, 2013-01-01, 2013-01-03"),
+                new EmploymentRecord("143, 10, 2011-01-01, 2011-01-03"),
+                new EmploymentRecord("218, 10, 2010-05-16, 2012-03-16"),
+                new EmploymentRecord("1337, 10, 2011-01-01, 2011-01-07"),
+                new EmploymentRecord("1338, 10, 2010-05-16, 2012-03-16")
+            };
+            var result = employmentService.CalculateLongestCommonEmlpoyment(records);
+            Assert.Multiple(() =>
+            {
+                Assert.Equal(218, result.FirstEmpId);
+                Assert.Equal(1338, result.SecondEmpId);
+                Assert.Equal(671, result.TimeInDays);
+            });
+        }
+
+        [Fact]
+        public void Test_CalculateLongestCommonEmlpoyment_With_ThreeWayTie()
+        {
+            IEmlpoymentService employmentService = new EmploymentService(new DataIngestionService());
+            List<EmploymentRecord> records = new List<EmploymentRecord>()
+            {
+                new EmploymentRecord("218, 10, 2012-05-16, NULL"),
+                new EmploymentRecord("143, 10, 2013-01-01, 2013-01-03"),
+                new EmploymentRecord("143, 10, 2011-01-01, 2011-01-03"),
+                new EmploymentRecord("218, 10, 2010-05-16, 2012-03-16"),
+                new EmploymentRecord("1337, 10, 2011-01-01, 2011-01-06")
+            };
+            var result = employmentService.CalculateLongestCommonEmlpoyment(records);
+            Assert.Multiple(() =>
+            {
+                Assert.Equal(143, result.FirstEmpId);
+                Assert.Equal(218, result.SecondEmpId);
+                Assert.Equal(6, result.TimeInDays);
+            });
         }
     }
 }

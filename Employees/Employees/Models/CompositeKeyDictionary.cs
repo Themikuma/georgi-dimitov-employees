@@ -1,7 +1,10 @@
 ﻿
 namespace Employees.Models
 {
-
+    /// <summary>
+    /// Creates a composite key dictionary that calculates a unique composite key for 
+    /// employees and adds up days together on a project as a value.
+    /// </summary>
     public class CompositeKeyDictionary
     {
         private readonly Dictionary<string, int> _calculatedDurations;
@@ -46,14 +49,6 @@ namespace Employees.Models
             }
         }
 
-        public int GetDuration(int EmpId1, int EmpId2)
-        {
-            var key = CreateKey(EmpId1, EmpId2);
-            return _calculatedDurations[key];
-        }
-
-        public int GetDuration(string key) => _calculatedDurations[key];
-
         public CommonEmployment GetMaxDuration()
         {
             int max = 0;
@@ -68,8 +63,9 @@ namespace Employees.Models
             }
             if (string.IsNullOrWhiteSpace(maxKey))
             {
-                throw new ArgumentOutOfRangeException("There were no overlapping employee intervals given");
+                throw new ArgumentOutOfRangeException(Constants.NoOverlappingEmployeesMessage);
             }
+            var ordered = _calculatedDurations.OrderByDescending(t => t.Key).ToList();
             var parts = maxKey.Split(',');
             return new CommonEmployment(int.Parse(parts[0]), int.Parse(parts[1]), max);//TODO: Think about the cost of avoiding this parsing by keeping an object value instead of int and having the keys in.
         }
@@ -78,7 +74,7 @@ namespace Employees.Models
         {
             if (employeeId1 == employeeId2)
             {
-                return "";
+                return string.Empty;
             }
             string key;
             if (employeeId1 > employeeId2)

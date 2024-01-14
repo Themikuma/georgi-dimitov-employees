@@ -45,6 +45,7 @@ namespace Employees.Tests.ServicesTests
                 Assert.NotNull(result);
                 Assert.NotNull(result[10]);
                 Assert.Equal(142, result[10][0].EmpId);
+                Assert.Single(result);
             });
         }
 
@@ -82,12 +83,13 @@ namespace Employees.Tests.ServicesTests
             string line = $"143, 12, 2013-11-01, 2014-01-05\n218, 10, NULL\n143, 10, 2009-01-01, 2011-04-27";
             IDataIngestionService service = new DataIngestionService();
 
-            Assert.Throws<ArgumentException>(() => service.ReadRecords(line));
+            var exception = Assert.Throws<ArgumentException>(() => service.ReadRecords(line));
+            Assert.Equal("Malformed file. Please check line 2 for correctness", exception.Message);
         }
 
         [Theory]
         [InlineData("143, 12, 2013-11-01, 2014-01-05", 1)]
-        [InlineData($"143, 12, 2013-11-01, 2014-01-05\n218, 10, 2012-05-16, NULL\n143, 10, 2009-01-01, 2011-04-27", 3)]
+        [InlineData("143, 12, 2013-11-01, 2014-01-05\n218, 10, 2012-05-16, NULL\n143, 10, 2009-01-01, 2011-04-27", 3)]
         public void Test_ReadRecords(string content, int expected)
         {
             IDataIngestionService service = new DataIngestionService();

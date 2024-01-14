@@ -13,7 +13,7 @@ namespace Employees.Tests.ModelsTests
 
             dictionary.Add(duration1, duration2);
 
-            Assert.Equal(3, dictionary.GetDuration(duration1.EmpId, duration2.EmpId));
+            Assert.Equal(3, dictionary.GetMaxDuration().TimeInDays);
         }
 
         [Fact]
@@ -24,7 +24,11 @@ namespace Employees.Tests.ModelsTests
             CompositeKeyDictionary dictionary = new CompositeKeyDictionary();
 
             dictionary.Add(duration1, duration2);
-            Assert.Throws<KeyNotFoundException>(() => dictionary.GetDuration(duration1.EmpId, duration2.EmpId));
+            Assert.Multiple(() =>
+            {
+                var exception = Assert.Throws<ArgumentOutOfRangeException>(() => dictionary.GetMaxDuration().TimeInDays);
+                Assert.Equal(Constants.NoOverlappingEmployeesMessage, exception.ParamName);
+            });
         }
 
         [Fact]
@@ -36,7 +40,7 @@ namespace Employees.Tests.ModelsTests
 
             dictionary.Add(duration1, duration2);
 
-            Assert.Equal(3, dictionary.GetDuration(duration1.EmpId, duration2.EmpId));
+            Assert.Equal(3, dictionary.GetMaxDuration().TimeInDays);
         }
 
         [Fact]
@@ -48,7 +52,7 @@ namespace Employees.Tests.ModelsTests
 
             dictionary.Add(duration1, duration2);
 
-            Assert.Equal(1, dictionary.GetDuration(duration1.EmpId, duration2.EmpId));
+            Assert.Equal(1, dictionary.GetMaxDuration().TimeInDays);
         }
 
         [Fact]
@@ -61,9 +65,13 @@ namespace Employees.Tests.ModelsTests
             CompositeKeyDictionary dictionary = new CompositeKeyDictionary();
 
             dictionary.Add(duration1, duration2);
+            dictionary.Add(duration1, duration3);
+            dictionary.Add(duration1, duration4);
+            dictionary.Add(duration2, duration3);
+            dictionary.Add(duration2, duration4);
             dictionary.Add(duration4, duration3);
 
-            Assert.Equal(5, dictionary.GetDuration(duration1.EmpId, duration2.EmpId));
+            Assert.Equal(5, dictionary.GetMaxDuration().TimeInDays);
         }
 
         [Fact]
@@ -83,30 +91,6 @@ namespace Employees.Tests.ModelsTests
                 Assert.Equal(expected.TimeInDays, actual.TimeInDays);
             });
 
-        }
-
-        [Fact]
-        public void Test_GetMaxDuration_With_MultipleOverlappingEmployees()
-        {
-            CompositeKeyDictionary dictionary = new CompositeKeyDictionary();
-            EmploymentDuration duration1 = new EmploymentDuration(new EmploymentRecord("218, 10, 2012-05-16, NULL"));
-            EmploymentDuration duration2 = new EmploymentDuration(new EmploymentRecord("143, 10, 2013-01-01, 2013-01-03"));
-            EmploymentDuration duration3 = new EmploymentDuration(new EmploymentRecord("143, 10, 2011-01-01, 2011-01-03"));
-            EmploymentDuration duration4 = new EmploymentDuration(new EmploymentRecord("218, 10, 2010-05-16, 2012-03-16"));
-            EmploymentDuration duration5 = new EmploymentDuration(new EmploymentRecord("1337, 10, 2011-01-01, 2011-01-07"));
-            EmploymentDuration duration6 = new EmploymentDuration(new EmploymentRecord("1338, 10, 2010-05-16, 2012-03-16"));
-
-            dictionary.Add(duration1, duration2);
-            dictionary.Add(duration4, duration3);
-            dictionary.Add(duration5, duration6);
-            CommonEmployment expected = new CommonEmployment(1337, 1338, 7);
-            CommonEmployment actual = dictionary.GetMaxDuration();
-            Assert.Multiple(() =>
-            {
-                Assert.Equal(expected.FirstEmpId, actual.FirstEmpId);
-                Assert.Equal(expected.SecondEmpId, actual.SecondEmpId);
-                Assert.Equal(expected.TimeInDays, actual.TimeInDays);
-            });
         }
     }
 }

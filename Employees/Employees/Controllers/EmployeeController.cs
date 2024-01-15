@@ -20,9 +20,9 @@ namespace Employees.Controllers
         }
 
         [HttpPost]
-        public CommonEmployment Post([FromBody] string content)
+        public CommonEmployment Post([FromBody] Request request)
         {
-            IEnumerable<EmploymentRecord> records = _dataIngestionService.ReadRecords(content);
+            IEnumerable<EmploymentRecord> records = _dataIngestionService.ReadRecords(request.Content);
             return _emlpoymentService.CalculateLongestCommonEmlpoyment(records);
         }
     }

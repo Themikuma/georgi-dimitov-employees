@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Employee } from './employee-list/employee-list.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FileService {
-  private responseData: any[] = [];
+  private responseData: Employee;
   constructor(private http: HttpClient) { }
 
   readAndSendFile(file: File): Promise<void> {
@@ -25,6 +26,10 @@ export class FileService {
       reader.onerror = (error) => reject(error);
       reader.readAsText(file);
     });
+  }
+
+  getResponseData():Employee{
+    return this.responseData;
   }
 
   private sendContentToApi(content: string) {

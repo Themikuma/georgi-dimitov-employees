@@ -1,5 +1,0 @@
-export class Employee {
-  EmpId1: number;
-  EmpId2: number;
-  Days: number;
-}

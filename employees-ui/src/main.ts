@@ -1,12 +1,20 @@
-import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import '@angular/localize/init';
+import {importProvidersFrom} from '@angular/core';
+import {bootstrapApplication} from '@angular/platform-browser';
+import {provideHttpClient} from '@angular/common/http';
+import {provideAnimations} from '@angular/platform-browser/animations';
+import {VERSION as CDK_VERSION} from '@angular/cdk';
+import {VERSION as MAT_VERSION, MatNativeDateModule} from '@angular/material/core';
+import {EmployeeTableComponent as EmployeeListComponent} from './employee-list/employee-list.component';
 
-import { AppModule } from './app/app.module';
-import { environment } from './environments/environment';
+/* eslint-disable no-console */
+console.info('Angular CDK version', CDK_VERSION.full);
+console.info('Angular Material version', MAT_VERSION.full);
 
-if (environment.production) {
-  enableProdMode();
-}
-
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+bootstrapApplication(EmployeeListComponent, {
+  providers: [
+    provideAnimations(),
+    provideHttpClient(),
+    importProvidersFrom(MatNativeDateModule)
+  ]
+}).catch(err => console.error(err));

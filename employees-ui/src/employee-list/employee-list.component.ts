@@ -8,8 +8,7 @@ export interface Employee {
   timeInDays: number;
 }
 
-let employeeData: Employee[] = [
-];
+const employeeData: Employee[] = [];
 
 @Component({
   selector: 'employee-list',
@@ -29,9 +28,9 @@ export class EmployeeTableComponent {
     const file = event.target.files[0] as File;
     if (file) {
       const t = await this.fileService.readAndSendFile(file);
-      console.log(this.fileService.getResponseData());
+      console.log(t);
       this.dataSource.length = 0;
-      this.dataSource.push(this.fileService.getResponseData());
+      this.dataSource.push(t);
       this.table.renderRows();
     }
   }

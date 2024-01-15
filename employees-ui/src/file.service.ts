@@ -9,16 +9,16 @@ export class FileService {
   private responseData: Employee;
   constructor(private http: HttpClient) { }
 
-  readAndSendFile(file: File): Promise<void> {
+  readAndSendFile(file: File): Promise<Employee> {
     console.log("Reading file");
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<Employee>((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = (event) => {
         const content = event.target?.result as string;
         this.sendContentToApi(content).subscribe(
           (response: any) => {
             this.responseData=response;
-            resolve();
+            resolve(response);
           },
           (error) => reject(error)
         );
@@ -26,10 +26,6 @@ export class FileService {
       reader.onerror = (error) => reject(error);
       reader.readAsText(file);
     });
-  }
-
-  getResponseData():Employee{
-    return this.responseData;
   }
 
   private sendContentToApi(content: string) {

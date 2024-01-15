@@ -6,13 +6,13 @@ namespace Employees.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class EmlpoyeeController : ControllerBase
+    public class EmployeeController : ControllerBase
     {
-        private readonly ILogger<EmlpoyeeController> _logger;
+        private readonly ILogger<EmployeeController> _logger;
         private readonly IEmlpoymentService _emlpoymentService;
         private readonly IDataIngestionService _dataIngestionService;
 
-        public EmlpoyeeController(ILogger<EmlpoyeeController> logger, IEmlpoymentService emlpoymentService, IDataIngestionService dataIngestionService)
+        public EmployeeController(ILogger<EmployeeController> logger, IEmlpoymentService emlpoymentService, IDataIngestionService dataIngestionService)
         {
             _logger = logger;
             _emlpoymentService = emlpoymentService;

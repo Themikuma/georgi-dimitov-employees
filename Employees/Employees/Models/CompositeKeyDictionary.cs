@@ -49,6 +49,11 @@ namespace Employees.Models
             }
         }
 
+        /// <summary>
+        /// Gets the pair of employees who have worked together on a project for the longest time.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public CommonEmployment GetMaxDuration()
         {
             int max = 0;

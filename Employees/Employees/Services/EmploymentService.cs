@@ -15,6 +15,12 @@ namespace Employees.Services
         public CommonEmployment CalculateLongestCommonEmlpoyment(IEnumerable<EmploymentRecord> records)
         {
             Dictionary<int, List<EmploymentDuration>> reformatedData = _ingestionService.ReformatData(records.ToList());
+            CompositeKeyDictionary dictionary = BuildDictionary(reformatedData);
+            return dictionary.GetMaxDuration();
+        }
+
+        private static CompositeKeyDictionary BuildDictionary(Dictionary<int, List<EmploymentDuration>> reformatedData)
+        {
             CompositeKeyDictionary dictionary = new CompositeKeyDictionary();
 
             foreach (int key in reformatedData.Keys)
@@ -35,7 +41,12 @@ namespace Employees.Services
                     }
                 }
             }
-            return dictionary.GetMaxDuration();
+            return dictionary;
+        }
+
+        public IEnumerable<ProjectCommonEmployment> GetProjectCommonEmployments(IEnumerable<EmploymentRecord> records)
+        {
+            throw new NotImplementedException();
         }
     }
 }

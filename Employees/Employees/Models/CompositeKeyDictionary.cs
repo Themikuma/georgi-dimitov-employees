@@ -49,11 +49,28 @@ namespace Employees.Models
             }
         }
 
+        /// <summary>        
+        /// Gets the duration two employees have spent working together on common projects
+        /// </summary>
+        /// <param name="empId1"></param>
+        /// <param name="empId2"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public CommonEmployment GetDuration(int empId1, int empId2)
+        {
+            var key = CreateKey(empId1, empId2);
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new ArgumentException(Constants.SameEmployeeId);
+            }
+            return GetCommonEmployment(key);
+        }
+
         /// <summary>
         /// Gets the pair of employees who have worked together on a project for the longest time.
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="ArgumentException">Thrown when no overlapping periods have been found</exception>
         public CommonEmployment GetMaxDuration()
         {
             int max = 0;
@@ -68,11 +85,15 @@ namespace Employees.Models
             }
             if (string.IsNullOrWhiteSpace(maxKey))
             {
-                throw new ArgumentOutOfRangeException(Constants.NoOverlappingEmployeesMessage);
+                throw new ArgumentException(Constants.NoOverlappingEmployeesMessage);
             }
-            var ordered = _calculatedDurations.OrderByDescending(t => t.Key).ToList();
+            return GetCommonEmployment(maxKey);
+        }
+
+        private CommonEmployment GetCommonEmployment(string maxKey)
+        {
             var parts = maxKey.Split(',');
-            return new CommonEmployment(int.Parse(parts[0]), int.Parse(parts[1]), max);//TODO: Think about the cost of avoiding this parsing by keeping an object value instead of int and having the keys in.
+            return new CommonEmployment(int.Parse(parts[0]), int.Parse(parts[1]), _calculatedDurations[maxKey]);
         }
 
         private string CreateKey(int employeeId1, int employeeId2)

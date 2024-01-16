@@ -56,14 +56,14 @@ namespace Employees.Models
         /// <param name="empId2"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public CommonEmployment GetDuration(int empId1, int empId2)
+        public int GetDuration(int empId1, int empId2)
         {
             var key = CreateKey(empId1, empId2);
             if (string.IsNullOrWhiteSpace(key))
             {
                 throw new ArgumentException(Constants.SameEmployeeId);
             }
-            return GetCommonEmployment(key);
+            return _calculatedDurations[key];
         }
 
         /// <summary>

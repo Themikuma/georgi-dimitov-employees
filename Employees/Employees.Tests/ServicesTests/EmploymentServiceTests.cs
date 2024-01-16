@@ -116,8 +116,8 @@ namespace Employees.Tests.ServicesTests
                 new EmploymentRecord("143, 10, 2013-01-01, 2013-01-03"),
                 new EmploymentRecord("143, 10, 2011-01-01, 2011-01-03"),
                 new EmploymentRecord("218, 10, 2010-05-16, 2012-03-16"),
-                new EmploymentRecord("1337, 10, 2011-01-01, 2011-01-07"),
-                new EmploymentRecord("1338, 10, 2010-05-16, 2012-03-16"),
+                new EmploymentRecord("1337, 10, 2019-01-01, 2019-01-07"),
+                new EmploymentRecord("1338, 10, 2019-05-16, 2019-03-16"),
                 new EmploymentRecord("218, 1, 2011-01-01, 2011-01-07"),
                 new EmploymentRecord("143, 1, 2010-05-16, 2012-03-16")
             };

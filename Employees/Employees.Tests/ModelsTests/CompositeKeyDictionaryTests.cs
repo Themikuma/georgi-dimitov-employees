@@ -124,14 +124,8 @@ namespace Employees.Tests.ModelsTests
             CompositeKeyDictionary dictionary = new CompositeKeyDictionary();
 
             dictionary.Add(duration1, duration2);
-            CommonEmployment expected = new CommonEmployment(218, 143, 1);
-            CommonEmployment actual = dictionary.GetDuration(duration1.EmpId, duration2.EmpId);
-            Assert.Multiple(() =>
-            {
-                Assert.Equal(143, actual.FirstEmpId);
-                Assert.Equal(218, actual.SecondEmpId);
-                Assert.Equal(1, actual.TimeInDays);
-            });
+            int actual = dictionary.GetDuration(duration1.EmpId, duration2.EmpId);
+            Assert.Equal(1, actual);
         }
 
         [Fact]
